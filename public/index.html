@@ -174,6 +174,23 @@ textarea.task-in{font-size:20px;font-weight:700;line-height:1.35;padding:12px;mi
 .buddy .bub{border:2px solid var(--ink);background:var(--tile);padding:4px 8px;font-size:11px;line-height:1.35;max-width:55%;margin-bottom:46px}
 .buddy .bub:empty{visibility:hidden}
 [data-bleed] .buddy .pic img{filter:grayscale(.85) brightness(.9)!important;animation:pulse 1.1s ease-in-out infinite!important}
+/* service record */
+.who{cursor:pointer;width:100%;text-align:center}
+.who .more{font-family:var(--pixel);font-size:10px;letter-spacing:.12em;color:var(--acc-ink)}
+.hero2{position:relative}
+.sq-bub{position:absolute;top:0;right:4%;max-width:52%;border:2px solid var(--ink);background:var(--tile);padding:4px 8px;font-size:12px;line-height:1.35;z-index:2}
+.sq-bub:empty{display:none}
+.fhead{display:flex;gap:12px;align-items:center;flex-shrink:0}
+.fhead .pic{width:110px;height:110px;flex-shrink:0;border:2px solid var(--ink);background:var(--tile)}
+.finfo{display:flex;flex-direction:column;gap:3px;min-width:0}
+.finfo b{font-family:var(--pixel);font-size:18px;font-weight:400;overflow-wrap:anywhere}
+.finfo .nk{font-family:var(--pixel);font-size:12px;color:var(--acc-ink)}
+.finfo small{font-size:11px;color:var(--muted)}
+.finfo q{font-size:12px;font-style:italic}
+.flog{overflow-y:auto;min-height:0;flex:1}
+.flog .rec b .w{color:var(--acc-ink)}
+.lastw{font-style:italic;font-size:13px;line-height:1.45}
+.plaque q{font-size:11px;font-style:italic;line-height:1.35}
 /* encounter */
 .enc-stage{position:relative;flex:1;min-height:170px;overflow:hidden;border:3px solid var(--ink);background:var(--tile)}
 .bush{position:absolute;bottom:-14px;width:52%;height:40%;background:var(--acc);border:3px solid var(--ink);border-radius:50% 50% 0 0;z-index:2}
@@ -377,10 +394,10 @@ textarea.task-in{font-size:20px;font-weight:700;line-height:1.35;padding:12px;mi
   <section class="screen" id="s-squad">
     <div class="crumbs"><span>1 ORDERS &gt;</span><span>2 CLOCK &gt;</span><b>3 SQUAD</b></div>
     <div class="summary"><b id="q-task"></b><span id="q-min"></span></div>
-    <div class="hero2"><button class="arr" id="b-prev" aria-label="Previous soldier">&lt;</button><div class="pic alive" id="b-pic"></div><button class="arr" id="b-next" aria-label="Next soldier">&gt;</button></div>
-    <div class="who" style="grid-template-columns:1fr">
-      <div class="mid"><b id="b-name"></b><small id="b-meta"></small><div class="xp"><i id="b-xp"></i></div></div>
-    </div>
+    <div class="hero2"><button class="arr" id="b-prev" aria-label="Previous soldier">&lt;</button><div class="pic alive" id="b-pic"></div><button class="arr" id="b-next" aria-label="Next soldier">&gt;</button><div class="sq-bub" id="b-say"></div></div>
+    <button class="who" id="b-file" style="grid-template-columns:1fr" aria-label="Open service record">
+      <span class="mid"><b id="b-name"></b><small id="b-meta"></small><span class="xp" style="display:block"><i id="b-xp"></i></span><span class="more">SERVICE RECORD &gt;</span></span>
+    </button>
     <p class="lab" id="b-risk" style="text-align:center;color:var(--acc-ink)"></p>
     <div class="navrow"><button class="btn" data-go="time">BACK</button><button class="btn go" id="b-go">DEPLOY!</button></div>
   </section>
@@ -430,7 +447,7 @@ textarea.task-in{font-size:20px;font-weight:700;line-height:1.35;padding:12px;mi
   <!-- RETURN -->
   <section class="screen" id="s-return">
     <div class="ret-pic"><div class="halo" aria-hidden="true"></div><div class="fx" id="r-fx"></div><div class="stamp" id="r-stamp">MISSION COMPLETE</div><div class="pic alive" id="r-pic"></div></div>
-    <div class="head" style="justify-content:center"><h1 id="r-name"></h1><span id="r-task" hidden></span></div>
+    <div class="head" style="justify-content:center;flex-direction:column;align-items:center;gap:4px"><h1 id="r-name" style="text-align:center"></h1><span class="lastw" id="r-task" style="text-align:center"></span></div>
     <section class="win"><div class="bar"><span class="close"></span><span class="wname">XP report</span></div>
       <div class="pane"><div class="ledger" id="r-ledger"></div>
         <div><div class="lvl"><span id="r-rank"></span><span id="r-xpt"></span></div><div class="xp anim"><i id="r-xp"></i></div></div></div></section>
@@ -449,10 +466,18 @@ textarea.task-in{font-size:20px;font-weight:700;line-height:1.35;padding:12px;mi
   <section class="screen" id="s-letgo">
     <p class="lab" id="g-look" style="color:var(--muted);margin-top:8px"></p>
     <div class="lg-pic"><div class="pic" id="g-pic"></div></div>
-    <div><div class="lg-name" id="g-name"></div><div class="sub" id="g-meta"></div><div style="font-size:13px;line-height:1.5;margin-top:4px" id="g-fell"></div></div>
+    <div><div class="lg-name" id="g-name"></div><div class="sub" id="g-meta"></div><div style="font-size:13px;line-height:1.5;margin-top:4px" id="g-fell"></div><p class="lastw" id="g-last"></p></div>
     <div style="width:100%;display:flex;flex-direction:column;gap:8px">
       <button class="hold" id="g-hold"><i id="g-fill"></i><span>HOLD TO LET GO</span></button>
     </div>
+  </section>
+
+  <!-- SERVICE RECORD -->
+  <section class="screen" id="s-file">
+    <div class="head"><h1>Service record</h1><button class="lab" data-go="squad" style="color:var(--muted);padding:6px 0">&lt; BACK</button></div>
+    <div class="fhead"><div class="pic alive" id="f-pic"></div><div class="finfo"><b id="f-name"></b><span class="nk" id="f-nick"></span><small id="f-meta"></small><q id="f-catch"></q></div></div>
+    <div class="stats"><div class="stat"><b id="f-won">0</b><small>missions</small></div><div class="stat"><b id="f-days">0</b><small>days served</small></div><div class="stat"><b id="f-close">0</b><small>close calls</small></div></div>
+    <section class="win grow"><div class="bar"><span class="close"></span><span class="wname">Missions</span></div><div class="pane flog" id="f-log"></div></section>
   </section>
 
   <!-- ENCOUNTER: 20% chance after a win -->
@@ -578,7 +603,37 @@ const SAY={start:['Copy that, Commander. Moving out.','Boots on the ground.','Ey
   late:['Clock is critical!','Commander, we are running out of time!','Requesting you hurry!','This is not a drill!'],
   bleed:['Man down! I am hit!','Medic! Finish the job!','Commander... I can not hold...','Tell my family... about the jorts.']};
 let S=Object.assign({roster:[],fallen:[],record:[],drop:null,mission:null,won:0,streak:0,lost:0,nextId:1,sel:null,mins:25},store.get('state',{}));
-const save=()=>store.set('state',S);
+const save=()=>{(S.roster||[]).forEach(x=>ensure(x));store.set('state',S)};
+/* ---------- voice: every soldier sounds like themselves ---------- */
+const PERS=['stoic','hype','nervous','sarcastic'],TICS=['none','caps','stutter','dots'],CALLS=['Commander','boss','chief','sir'];
+const NOUNS=['thunder','crumbs','jorts','biscuits','sparks','gravy','rockets','bees','socks','noodles','pickles','anvils','marbles','beans','buttons','spoons','comets','waffles'];
+const cap1=t=>t.charAt(0).toUpperCase()+t.slice(1);
+function makeCatch(){const a=pick(NOUNS),b=pick(NOUNS.filter(x=>x!==a));return pick([`${cap1(a)} and ${b}!`,`By my ${a}!`,`Great ${a}!`,`${cap1(a)}, ho!`,`Hold my ${a}.`,`Sweet ${a} of ${b}!`,`${cap1(a)} for breakfast!`,`Steady, ${a}...`])}
+const LINES={
+ stoic:{start:['Objective acquired.','Moving out.','Eyes forward.','On it, {c}.'],mid:['Halfway. Hold.','Steady.','Stay on target.'],late:['Time is short.','Finish it, {c}.'],bleed:['Hit. Holding.','Still here. Finish it.'],win:['Objective complete.','As expected.','Good work, {c}.'],poke:['{c}.','Standing by.'],greet:['Reporting, {c}.','Ready for orders.'],last:['It was an honour, {c}.','Remember {task}.']},
+ hype:{start:['LET\'S GOOO!','Clock\'s on, {c}! Go go go!','We are SO doing this!'],mid:['Halfway! We\'re cooking!','Don\'t stop now!'],late:['CLOCK! CLOCK! CLOCK!','Faster, {c}!'],bleed:['I\'m hit but I\'m hyped!','Come onnn, finish it!'],win:['WE DID IT!!','Absolute legends!'],poke:['HEY {c}!','Hi hi hi!'],greet:['{c}\'s back!!','Ready to WIN?'],last:['Best squad ever, {c}.','Win one for me.']},
+ nervous:{start:['Oh no. Ok. Ok. Going.','Is it safe? Going anyway.'],mid:['Halfway... I think?','Please keep going.'],late:['Oh no oh no oh no.','We\'re gonna be late!'],bleed:['I KNEW this would happen.','It hurts, {c}!'],win:['We... we did it?','I didn\'t die!'],poke:['Eep!','Was that an order?'],greet:['Oh! {c}. Hi.','Is today safe?'],last:['I was scared the whole time, {c}.','Don\'t forget me.']},
+ sarcastic:{start:['Oh good. A task.','Sure. Why not.','Another thrilling mission.'],mid:['Halfway. Riveting.','Still going, apparently.'],late:['Cutting it fine, {c}.','No pressure.'],bleed:['Great. Love bleeding.','Told you so.'],win:['Wow. We actually did it.','Mark the calendar.'],poke:['Can I help you?','Yes, {c}?'],greet:['Oh, you\'re back.','Look who remembered me.'],last:['Well. That happened.','Tell them {task} was your fault.']}};
+function tic(s,t){if(s.tic==='caps')return t.toUpperCase();if(s.tic==='stutter')return t.replace(/^([A-Za-z])/,(m)=>m+'-'+m);if(s.tic==='dots')return t.replace(/[.!?]*$/,'...');return t}
+const daysWith=s=>Math.floor((Date.now()-(s.born||Date.now()))/86400000)+1;
+function line(s,kind,task){let t=pick(LINES[s.pers]?.[kind]||LINES.stoic[kind]);return tic(s,t.replace(/\{c\}/g,s.call||'Commander').replace(/\{task\}/g,task||'that mission'))}
+/* history callbacks: lines only this soldier can say */
+function memory(s,task){const L=s.log||[],c=s.call||'Commander',out=[];
+  const words=(task||'').toLowerCase().match(/[a-z]{4,}/g)||[];
+  const past=L.slice().reverse().find(e=>e.t&&words.some(w=>e.t.toLowerCase().includes(w)));
+  if(past){const w=words.find(x=>past.t.toLowerCase().includes(x));out.push(`${cap1(w)} again? We've done this, ${c}.`)}
+  const wins=L.filter(e=>e.r==='win'||e.r==='late').length;if(wins>=2)out.push(`Mission ${wins+1} together, ${c}.`);
+  const last=L[L.length-1];if(last&&last.r==='late')out.push('Last time I bled. Not again.');
+  if(last&&last.r==='excuse')out.push('Last time you had an excuse. Not today.');
+  const d=daysWith(s);if(d>=2)out.push(`Day ${d}, ${c}.`);
+  return out.length?tic(s,pick(out)):null}
+function nickFor(s){const L=s.log||[];if(!L.length)return pick(['Ghost','Boots','Sparky','Ace']);
+  const late=L.filter(e=>e.r==='late').length,avgM=L.reduce((a,e)=>a+(e.m||25),0)/L.length,avgSt=L.reduce((a,e)=>a+(e.st||0),0)/L.length,early=L.filter(e=>e.r==='win'&&e.left>0.3).length;
+  if(late)return 'Photo Finish';if(avgM<=10)return 'Quickdraw';if(avgM>=45)return 'Marathon';if(avgSt>=3)return 'Checklist';if(early>=L.length*.6)return 'Early Bird';
+  return {speedy:'Zoom',tough:'Iron',glutton:'Snacks',eager:'Keen'}[s.trait]||pick(['Ghost','Boots','Sparky','Ace','Tank'])}
+const dname=s=>s.nick?`${s.name} "${s.nick}"`:s.name;
+function ensure(s){if(!s.pers)s.pers=pick(PERS);if(!s.tic)s.tic=pick(TICS);if(!s.call)s.call=pick(CALLS);if(!s.catch)s.catch=makeCatch();if(!s.log)s.log=[];if(s.nick===undefined)s.nick=null;if(!s.born)s.born=Date.now()}
+
 
 const rankOf=xp=>{let r=1;XP_AT.forEach((v,i)=>{if(xp>=v)r=i+1});return r};
 const pct=xp=>{const r=rankOf(xp);return r>=5?100:Math.round((xp-XP_AT[r-1])/(XP_AT[r]-XP_AT[r-1])*100)};
@@ -607,7 +662,8 @@ function act(el,a){if(!el||!el.querySelector('img'))return;ACTS.forEach(c=>el.cl
 setInterval(()=>{document.querySelectorAll('.screen.on .alive').forEach(el=>{if(Math.random()<.45)act(el,pick(ACTS))})},2600);
 const POKE=['SIR!','READY!','HOOAH!','ON IT!','LET\'S GO!'];
 document.addEventListener('pointerdown',e=>{const el=e.target.closest('.alive');if(!el||el.closest('#b-dial'))return;act(el,'a-hop');tone(660,0,.06,.08);tone(990,.06,.08,.08);buzz(15);
-  if(cur==='live'&&!root.dataset.bleed){$('l-say').textContent=pick(POKE);sayAt=Date.now()}});
+  if(cur==='live'&&!root.dataset.bleed&&S.mission){$('l-say').textContent=line(soldier(S.mission.sid),'poke');sayAt=Date.now()}
+  if(cur==='squad'){const s=soldier(S.sel);if(s)$('b-say').textContent=Math.random()<.5?tic(s,s.catch):line(s,'poke')}});
 
 /* ---------- celebration: confetti rain and fireworks all round ---------- */
 function party(secs=4){
@@ -626,7 +682,7 @@ function go(name){
   cur=name;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+name));
   if(name!=='live'){delete root.dataset.bleed;delete root.dataset.urgent}
   if(name!=='return')$('r-pic').classList.remove('dance');
-  ({task:drawTask,time:drawTime,squad:drawSquad,camp:drawCamp,drop:drawDrop,live:drawLive,memorial:drawMemorial,enc:drawEnc}[name]||(()=>{}))();
+  ({file:drawFile,task:drawTask,time:drawTime,squad:drawSquad,camp:drawCamp,drop:drawDrop,live:drawLive,memorial:drawMemorial,enc:drawEnc}[name]||(()=>{}))();
   if(name!=='enc')cancelAnimationFrame(meterRAF);
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
@@ -671,13 +727,15 @@ function drawSquad(){
   const s=pickSel(),r=rankOf(s.xp),out=isOut(s),many=S.roster.length>1,res=isReserve(s);
   $('q-task').textContent=S.draft.task;$('q-min').textContent=`${S.mins} min`;
   $('b-pic').innerHTML=img(s);$('b-pic').style.opacity=out?.45:1;
-  $('b-name').textContent=s.name;
+  $('b-name').textContent=dname(s);
+  $('b-say').textContent=S.away?tic(s,`You were gone ${S.away} days, ${s.call}.`):(memory(s,S.draft.task)||line(s,'greet'));S.away=0;
   $('b-meta').textContent=(res?'RESERVE · ':'')+(out?`MED BAY · back in ${hrs(s.medUntil-Date.now())}h`:`${RANKS[r-1]} · ${TRAITS[s.trait].n}`);
   $('b-xp').style.width=pct(s.xp)+'%';
   $('b-prev').style.visibility=$('b-next').style.visibility=many?'visible':'hidden';
   $('b-risk').textContent=res?'RESERVES CAN\'T DEPLOY':out?'MED BAY':`FAIL AND ${s.name.toUpperCase()} DIES`;
   $('b-go').textContent=res?'SWAP IN':out?'IN MED BAY':'DEPLOY!';$('b-go').disabled=out&&!res;
 }
+$('b-file').onclick=()=>{blip();go('file')};
 function cycle(d){const i=S.roster.findIndex(s=>s.id===S.sel);S.sel=S.roster[(i+d+S.roster.length)%S.roster.length].id;save();blip();drawSquad()}
 $('b-prev').onclick=()=>cycle(-1);$('b-next').onclick=()=>cycle(1);
 $('b-go').onclick=()=>{
@@ -772,12 +830,12 @@ let sayAt=0,phaseSaid='',lastThump=0,tickT=null,lastTick=0;
 function drawLive(){
   const m=S.mission,s=m&&soldier(m.sid);if(!m||!s){S.mission=null;save();go('task');return}
   $('l-task').textContent=m.task;const L=m.task.length;$('l-task').style.fontSize=(L<16?28:L<30?23:L<50?19:16)+'px';$('l-pic').innerHTML=img(s);
-  $('l-who').textContent=`${s.name.toUpperCase()} · ${TRAITS[s.trait].n}`;
+  $('l-who').textContent=dname(s);
   drawSteps();phaseSaid='';$('l-say').textContent='';wake();tick();
 }
 function drawSteps(){const m=S.mission;$('l-steps').innerHTML=m.micro.map((x,i)=>`<button class="step" data-i="${i}" aria-pressed="${x.done}">${esc(x.t)} +10</button>`).join('')}
 $('l-steps').onclick=e=>{const b=e.target.closest('.step');if(!b)return;const x=S.mission.micro[+b.dataset.i];x.done=!x.done;save();if(x.done){tone(988,0,.08,.08);tone(1319,.07,.1,.08);burst($('l-dial'),10,90)}drawSteps()};
-function say(kind){$('l-say').textContent=pick(SAY[kind]);sayAt=Date.now()}
+function say(kind){const s=soldier(S.mission.sid);let t=null;if(kind==='start'&&Math.random()<.6)t=memory(s,S.mission.task);$('l-say').textContent=t||line(s,kind,S.mission.task);sayAt=Date.now()}
 function tick(){
   clearTimeout(tickT);if(cur!=='live'||!S.mission)return;
   const m=S.mission,now=Date.now(),s=soldier(m.sid);
@@ -823,6 +881,8 @@ async function win(late){
   let total=rows.reduce((a,r)=>a+r[1],0);
   if(s.trait==='glutton'){rows.push(['Glutton: double XP',total]);total*=2}
   const xp0=s.xp,before=rankOf(xp0);s.xp+=total;s.missions++;const after=rankOf(s.xp);
+  ensure(s);s.log.push({t:m.task,d:now,m:m.mins,r:late?'late':'win',st:m.micro.length,left:late?0:Math.max(0,(m.end-now)/(m.mins*60000))});
+  if(after>=2&&!s.nick){s.nick=nickFor(s);s._newNick=true}
   const unlockedSlot=UNLOCK.includes(S.won+1);
   /* 20% a win; your first win always has one, and never more than 4 wins in a row without */
   if(!S.encSeen||(S.dry||0)>=4||Math.random()<.2){S.encounter=makeOne();S.encSeen=true;S.dry=0}else S.dry=(S.dry||0)+1;
@@ -830,7 +890,7 @@ async function win(late){
   /* staging */
   go('return');$('r-go').disabled=true;
   const st=$('r-stamp');st.textContent=late?'SAVED IN TIME':'MISSION COMPLETE';st.className='stamp'+(late?' late':'');st.style.visibility='hidden';
-  $('r-pic').innerHTML='';$('r-ledger').innerHTML='';$('r-name').textContent=s.name;$('r-task').textContent=m.task;
+  $('r-pic').innerHTML='';$('r-ledger').innerHTML='';$('r-name').textContent=dname(s);$('r-task').textContent='“'+(Math.random()<.5?tic(s,s.catch):line(s,'win'))+'”';
   const showXp=x=>{const r=rankOf(x);$('r-rank').textContent=RANKS[r-1].toUpperCase();$('r-xpt').textContent=r>=5?`${x} XP · MAX`:`${x} / ${XP_AT[r]} XP`;$('r-xp').style.width=pct(x)+'%'};
   $('r-xp').parentElement.classList.remove('anim');showXp(xp0);void $('r-xp').offsetWidth;$('r-xp').parentElement.classList.add('anim');
   await wait(150);st.style.visibility='visible';st.style.animation='none';void st.offsetWidth;st.style.animation='';slam();shake();buzz(60);
@@ -867,8 +927,8 @@ function evolve(s,from,to){return new Promise(async done=>{
   flash();bigChord();buzz([100,50,200]);
   $('e-new').firstChild.classList.remove('whiteout');E.classList.remove('charging');E.classList.add('lit');party(5);
   burst($('e-fx'),60,260);setTimeout(()=>burst($('e-fx'),40,200),350);
-  $('e-msg').textContent=`${s.name.toUpperCase()} became a ${RANKS[to-1].toUpperCase()}!`;
-  $('e-perk').textContent=PERKS[to-1];
+  $('e-msg').textContent=`${s.name.toUpperCase()} became a ${RANKS[to-1].toUpperCase()}!`;tone(1568,.4,.3,.08);
+  $('e-perk').textContent=s._newNick?`Earned a nickname: "${s.nick}"`:PERKS[to-1];if(s._newNick){delete s._newNick;save()}
   $('e-go').onclick=()=>{E.className='evo';done()};
 })}
 
@@ -894,11 +954,11 @@ function q3(){$('h-wname').textContent='On the record';
   $('h-why').focus();$('h-back').onclick=q2;
   $('h-file').onclick=()=>{const why=$('h-why').value.trim();if(why.length<4){note('WRITE THE REASON DOWN');return}
     const m=S.mission,s=soldier(m.sid),r=rankOf(s.xp),nr=Math.max(1,r-1);
-    s.xp=Math.min(s.xp,XP_AT[nr-1]);s.scars++;
+    s.xp=Math.min(s.xp,XP_AT[nr-1]);s.scars++;ensure(s);s.log.push({t:m.task,d:Date.now(),m:m.mins,r:'excuse',why});
     S.record.unshift({name:s.name,sp:s.sp,date:Date.now(),task:m.task,why,from:RANKS[r-1],to:RANKS[nr-1]});
     S.mission=null;S.streak=0;save();note(`FILED. ${s.name.toUpperCase()} LIVES.`);go('task')}}
 function noExcuse(){const m=S.mission,s=soldier(m.sid);
-  if(s.trait==='tough'&&!s.toughUsed){s.toughUsed=true;s.medUntil=Date.now()+12*3600000;s.scars++;S.mission=null;S.streak=0;save();slam();shake();note(`${s.name.toUpperCase()} PULLED THROUGH. MED BAY 12H.`);go('task');return}
+  if(s.trait==='tough'&&!s.toughUsed){s.toughUsed=true;s.medUntil=Date.now()+12*3600000;s.scars++;ensure(s);s.log.push({t:m.task,d:Date.now(),m:m.mins,r:'tough'});S.mission=null;S.streak=0;save();slam();shake();note(`${s.name.toUpperCase()} PULLED THROUGH. MED BAY 12H.`);go('task');return}
   drawLetGo();go('letgo')}
 
 /* ---------- let go ---------- */
@@ -907,7 +967,7 @@ function drawLetGo(){const m=S.mission,s=soldier(m.sid),r=rankOf(s.xp);
   $('g-pic').innerHTML=img(s,{fallen:true,alt:`${s.name}, fading, looking at you`});
   $('g-name').textContent=s.name.toUpperCase();
   $('g-meta').textContent=`${RANKS[r-1]} · ${s.missions} mission${s.missions===1?'':'s'} · ${TRAITS[s.trait].n}`;
-  $('g-fell').textContent=`Fell to: ${m.task}`;setHold(0)}
+  $('g-fell').textContent=`Fell to: ${m.task}`;ensure(s);s.lastWords=line(s,'last',m.task);$('g-last').textContent='“'+s.lastWords+'”';$('g-name').textContent=dname(s).toUpperCase();setHold(0)}
 let holdT=null,holdP=0,holdStart=0;
 function setHold(p){holdP=p;$('g-fill').style.width=(p*100)+'%';$('g-pic').style.opacity=1-p*.92}
 function holdLoop(){const p=Math.min(1,(Date.now()-holdStart)/5000);setHold(p);if(p>=1){holdT=null;letGo();return}holdT=requestAnimationFrame(holdLoop)}
@@ -915,14 +975,14 @@ $('g-hold').addEventListener('pointerdown',e=>{e.preventDefault();audio();try{$(
 ['pointerup','pointercancel','pointerleave'].forEach(ev=>$('g-hold').addEventListener(ev,()=>{if(holdT){cancelAnimationFrame(holdT);holdT=null;const from=holdP,t0=Date.now();(function back(){const p=Math.max(0,from-(Date.now()-t0)/400);setHold(p);if(p>0&&!holdT)requestAnimationFrame(back)})()}}));
 $('g-hold').addEventListener('contextmenu',e=>e.preventDefault());
 function letGo(){if(devPreview){devPreview=false;dirge();go('task');return}const m=S.mission,s=m&&soldier(m.sid);if(!s)return;
-  S.fallen.unshift({name:s.name,sp:s.sp,rank:rankOf(s.xp),missions:s.missions,trait:s.trait,task:m.task,date:Date.now()});
+  S.fallen.unshift({name:s.name,nick:s.nick,sp:s.sp,rank:rankOf(s.xp),missions:s.missions,trait:s.trait,task:m.task,date:Date.now(),born:s.born,last:s.lastWords,log:(s.log||[]).slice(-30)});
   S.roster=S.roster.filter(x=>x.id!==s.id);S.mission=null;S.lost++;S.streak=0;S.sel=null;save();dirge();go('memorial')}
 
 /* ---------- memorial ---------- */
 function drawMemorial(){
   $('st-won').textContent=S.won;$('st-fallen').textContent=S.fallen.length;$('st-streak').textContent=S.streak;
   $('w-fallen').innerHTML=S.fallen.length?`<div class="plaques">${S.fallen.map(f=>`<div class="plaque"><div class="pic">${img(f,{fallen:true,alt:f.name+', fallen'})}</div>
-    <b>${esc(f.name)}</b><small>${RANKS[f.rank-1]} · ${f.missions} mission${f.missions===1?'':'s'}</small><span>Fell to: <strong>${esc(f.task)}</strong></span><small>${fmtDate(f.date)}</small></div>`).join('')}</div>`:'<p class="sub">No one has fallen. Yet.</p>';
+    <b>${esc(f.nick?f.name+' "'+f.nick+'"':f.name)}</b><small>${RANKS[f.rank-1]} · ${f.missions} mission${f.missions===1?'':'s'}</small><span>Fell to: <strong>${esc(f.task)}</strong></span>${f.last?`<q>${esc(f.last)}</q>`:''}<small>${fmtDate(f.date)}</small></div>`).join('')}</div>`:'<p class="sub">No one has fallen. Yet.</p>';
   $('w-recwin').hidden=!S.record.length;
   $('w-rec').innerHTML=S.record.map(r=>`<div class="rec"><b>${esc(r.name.toUpperCase())} · ${fmtDate(r.date)} · ${r.from.toUpperCase()} &gt; ${r.to.toUpperCase()}</b><span>Mission: ${esc(r.task)}</span><span>&quot;${esc(r.why)}&quot;</span></div>`).join('');
 }
@@ -981,6 +1041,18 @@ $('dev').onclick=e=>{if(e.target===$('dev'))$('dv-close').click()};
 let devPreview=false;
 $('devtag').onclick=openDev;
 if(S.dev)$('devtag').hidden=false;
+
+/* ---------- service record ---------- */
+const RES={win:'WIN',late:'CLOSE CALL',excuse:'EXCUSE',tough:'PULLED THROUGH'};
+function drawFile(){const s=soldier(S.sel);if(!s){go('task');return}ensure(s);const r=rankOf(s.xp),L=s.log||[];
+  $('f-pic').innerHTML=img(s);$('f-name').textContent=s.name;$('f-nick').textContent=s.nick?`"${s.nick}"`:'NO NICKNAME YET';
+  $('f-meta').textContent=`${RANKS[r-1]} ${SPECIES[s.sp]} · ${cap1(s.pers)} · ${TRAITS[s.trait].n}`;
+  $('f-catch').textContent=tic(s,s.catch);
+  $('f-won').textContent=s.missions;$('f-days').textContent=daysWith(s);$('f-close').textContent=L.filter(e=>e.r!=='win').length;
+  $('f-log').innerHTML=L.length?L.slice().reverse().map(e=>`<div class="rec"><b>${fmtDate(e.d).toUpperCase()} · <span class="w">${RES[e.r]||'WIN'}</span> · ${e.m} MIN</b><span>${esc(e.t)}</span>${e.why?`<span>&quot;${esc(e.why)}&quot;</span>`:''}</div>`).join(''):'<p class="sub">No missions yet.</p>'}
+
+/* ---------- days away ---------- */
+{const last=store.get('seen',0),gap=last?Math.floor((Date.now()-last)/86400000):0;if(gap>=2)S.away=gap;store.set('seen',Date.now());setInterval(()=>store.set('seen',Date.now()),60000)}
 
 /* ---------- boot ---------- */
 (function boot(){
