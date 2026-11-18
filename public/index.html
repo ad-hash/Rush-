@@ -824,7 +824,8 @@ async function win(late){
   if(s.trait==='glutton'){rows.push(['Glutton: double XP',total]);total*=2}
   const xp0=s.xp,before=rankOf(xp0);s.xp+=total;s.missions++;const after=rankOf(s.xp);
   const unlockedSlot=UNLOCK.includes(S.won+1);
-  if(Math.random()<.2)S.encounter=makeOne();
+  /* 20% a win; your first win always has one, and never more than 4 wins in a row without */
+  if(!S.encSeen||(S.dry||0)>=4||Math.random()<.2){S.encounter=makeOne();S.encSeen=true;S.dry=0}else S.dry=(S.dry||0)+1;
   S.won++;S.streak++;S.mission=null;save();sleepOK();
   /* staging */
   go('return');$('r-go').disabled=true;
